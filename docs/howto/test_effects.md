@@ -22,14 +22,15 @@ import zio.test._
 import zio.clock.nanoTime
 import Assertion.isGreaterThan
 
-val clockSuite = suite("clock") {
+val clockSuite = suite("clock") (
   testM("time is non-zero") {
     assertM(nanoTime, isGreaterThan(0L))
   }
-}
+)
 ```
 
 As you can see the whole suit was assigned to `clockSuite` val. As it was said suites can contain other suites so we can aggregate them as much as needed. Example, we can have multiple suites that test external HTTP apis and one big suite that will aggregate them all.
+
 
 ```scala mdoc
 import zio.test._
@@ -119,6 +120,7 @@ testM("Semaphore should expose available number of permits") {
 ### Running tests
 
 When all of our tests are constructed, we need to have a way to actually execute them. Your first stop is the `zio.test.DefaultRunnableSpec` which accepts a single suite that will be executed. A single suite might seem to be limiting but as it was already said suites can hold any number of other suites. You may structure your tests like this:
+
 
 ```scala mdoc
 import zio.test._
